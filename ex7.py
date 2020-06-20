@@ -88,10 +88,31 @@ for iter in range(100):
 
     # print estimated parameters:
     if iter == 1 or iter == 9 or iter == 99:
-        print("the estimated parameters after ", iter + 1, "iterations are:")
+        print("EM estimated parameters after ", iter + 1, "iterations are:")
         print("c1 = ", c_learn[0])
         print("c2 = ", c_learn[1])
         print("sigma1 = ", sigma1)
         print("sigma2 = ", sigma2)
         print("mu1 = ", mus[0])
         print("mu2 = ", mus[1])
+
+
+#  section B:
+
+means = {0: x[0], 1: x[1]}
+
+for i in range(100):
+    classifications = {0: [], 1: []}
+
+    for point in x:
+        distances = [np.linalg.norm(point - means[index]) for index in means]
+        classification = distances.index(min(distances))
+        classifications[classification].append(point)
+
+    prev_centroids = dict(means)
+
+    for classification in classifications:
+        means[classification] = np.average(classifications[classification], axis=0)
+
+    if i == 1 or i == 9 or i == 99:
+        print("K-Means estimated means after ", i + 1, "iterations are: ", means)
