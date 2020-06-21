@@ -99,20 +99,18 @@ for iter in range(100):
 
 #  section B:
 
-means = {0: x[0], 1: x[1]}
+means = {0: x[0], 1: x[1]}  # means initialization
 
 for i in range(100):
     classifications = {0: [], 1: []}
-
+    # classify by min distance:
     for point in x:
         distances = [np.linalg.norm(point - means[index]) for index in means]
         classification = distances.index(min(distances))
         classifications[classification].append(point)
-
-    prev_centroids = dict(means)
-
+    # set new means by average:
     for classification in classifications:
         means[classification] = np.average(classifications[classification], axis=0)
-
+    # print means:
     if i == 1 or i == 9 or i == 99:
         print("K-Means estimated means after ", i + 1, "iterations are: ", means)
